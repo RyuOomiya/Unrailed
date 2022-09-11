@@ -41,7 +41,6 @@ public class PlayerMove : MonoBehaviour
         //シフトを押したときにスプリントしてクールタイムをリセットする
         if (Input.GetKeyDown(KeyCode.LeftShift) && _coolTime < 0)
         {
-            Debug.Log("a");
             _nowSpeed = _speed;
             _speed = _sprintSpeed;
             Invoke(nameof(CoolTime), 0.1f);

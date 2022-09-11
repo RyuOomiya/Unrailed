@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Point
+  - Item
+  - Tree
+  - Tool
   layers:
   - Default
   - TransparentFX
