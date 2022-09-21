@@ -25,7 +25,7 @@ public class PickAxe : MonoBehaviour , IPickableItem
             _isSwing = false;
         }
     }
-    public  void Action(GameObject hitObj)
+    public void Action(GameObject hitObj)
     {
         if (hitObj.TryGetComponent(out Rock rock) && !_isSwing)
         {

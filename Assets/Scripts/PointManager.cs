@@ -50,10 +50,8 @@ public class PointManager : MonoBehaviour
     /// <param name="hitObj">当たったobj</param>
     public void ToolSeach(GameObject hitObj)
     {
-        Debug.Log("入ってます");
         if (hitObj.TryGetComponent(out IPickableItem items))
         {
-
             ItemPick(hitObj, items);
         }
 
@@ -64,8 +62,10 @@ public class PointManager : MonoBehaviour
     }
 
     /// <summary>
-    /// アイテム取る
+    /// アイテムを取る
     /// </summary>
+    /// <param name="hitObj">拾ったアイテム</param>
+    /// <param name="items">IPickableItemのスクリプトの変数</param>
     void ItemPick(GameObject hitObj, IPickableItem items)
     {
         _hitItems.Remove(hitObj);
@@ -82,13 +82,27 @@ public class PointManager : MonoBehaviour
     /// </summary>
     private void ItemDrop()
     {
-        _isHave = false;
+        if (_haveObject == null)
+        {
+            return;
+        }
         Debug.Log("アイテムを落とした");
-        _haveObject.transform.position =
-           new Vector3(_gridScript.Point.transform.position.x,
-                        0, _gridScript.Point.transform.position.z); //一番近いマスに落とす
+        //一番近いマスに落とす
+        _haveObject.transform.position
+            = new Vector3(_gridScript.Point.transform.position.x,
+                        0, _gridScript.Point.transform.position.z); 
+        Debug.Log(_haveObject.transform.position);
+        HaveObjReset();
+    }
+
+    /// <summary>
+    /// アイテム落としたらリセット
+    /// </summary>
+    public void HaveObjReset()
+    {
+        _isHave = false;
         _haveObject.transform.parent = null;
-        _haveObject = null;     //落としたらリセット
-        _iPickScript = null;    //落としたらリセット
+        _haveObject = null;
+        _iPickScript = null;
     }
 }
