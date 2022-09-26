@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PointManager : MonoBehaviour
 {
@@ -9,7 +10,10 @@ public class PointManager : MonoBehaviour
     GameObject _haveObject;
     ItemGrid _gridScript;
     IPickableItem _iPickScript;
-    [Tooltip("ツール持ってる?")] bool _isHave = false;
+    [SerializeField] bool _canDrop = false;
+
+    public ItemType PickedType { get => _iPickScript.Type; }
+    public bool HasObj { get => _iPickScript != null; }
 
     void Start()
     {
@@ -17,10 +21,40 @@ public class PointManager : MonoBehaviour
     }
     void Update()
     {
+        //_hitItemsを回す
+        foreach (GameObject obj in _hitItems)
+        {
+            //HintRailに触れてた時
+            if (obj.TryGetComponent(out HintRail hintRail))
+            {
+                Debug.Log("置けないよー");
+                _canDrop = false;
+            }
+            else
+            {
+                //Railに触れててそのRailが設置済みのRailの時
+                if (obj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
+                {
+                    Debug.Log("置けないよー");
+                    _canDrop = false;
+                }
+                else
+                {
+                    Debug.Log("置けるよー");
+                    _canDrop = true;
+                }
+            }
+            
+            
+            
+            
+            
+        }
+
         //アイテム拾うか落とすか
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (_isHave)
+            if (HasObj && _canDrop)
             {
                 ItemDrop();
             }
@@ -50,7 +84,7 @@ public class PointManager : MonoBehaviour
     /// <param name="hitObj">当たったobj</param>
     public void ToolSeach(GameObject hitObj)
     {
-        if (hitObj.TryGetComponent(out IPickableItem items))
+        if (hitObj.TryGetComponent(out IPickableItem items) && items.Type != ItemType.NotItem)
         {
             ItemPick(hitObj, items);
         }
@@ -68,12 +102,17 @@ public class PointManager : MonoBehaviour
     /// <param name="items">IPickableItemのスクリプトの変数</param>
     void ItemPick(GameObject hitObj, IPickableItem items)
     {
+        //拾ったRailが設置済みのRailなら_railsリストから消す
+        if (hitObj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
+        {
+            RailManager.Instance._rails.Remove(rail);
+        }
         _hitItems.Remove(hitObj);
         _iPickScript = items;
         _haveObject = hitObj;
-        _isHave = true;
         Input.ResetInputAxes();
         hitObj.transform.parent = this.gameObject.transform;
+        hitObj.transform.position = this.gameObject.transform.position;
         Debug.Log("Toolを取った");
     }
 
@@ -90,7 +129,7 @@ public class PointManager : MonoBehaviour
         //一番近いマスに落とす
         _haveObject.transform.position
             = new Vector3(_gridScript.Point.transform.position.x,
-                        0, _gridScript.Point.transform.position.z); 
+                        0, _gridScript.Point.transform.position.z);
         Debug.Log(_haveObject.transform.position);
         HaveObjReset();
     }
@@ -100,7 +139,6 @@ public class PointManager : MonoBehaviour
     /// </summary>
     public void HaveObjReset()
     {
-        _isHave = false;
         _haveObject.transform.parent = null;
         _haveObject = null;
         _iPickScript = null;

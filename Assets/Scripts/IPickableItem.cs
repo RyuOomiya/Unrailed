@@ -3,11 +3,13 @@ public enum ItemType
 {
     Tool,
     Resource,
+    Rail,
+    NotItem,
 }
 
 
-interface IPickableItem
+public interface IPickableItem
 {
-    ItemType Type { get; }
+    ItemType Type { get;  }
     void Action(GameObject hitObj);
 }

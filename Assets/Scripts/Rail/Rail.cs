@@ -5,13 +5,15 @@ using UnityEngine;
 public class Rail : MonoBehaviour, IPickableItem
 {
     [Tooltip("アイテムタイプ"), SerializeField] ItemType _type;
-
     public ItemType Type { get => _type; }
 
+    public void Set(ItemType type)
+    {
+        _type = type;
+    }
     void Start()
     {
-        //最初のレールをリストに入れる
-        RailManager.Instance.AddRail(this);
+        
     }
 
     void Update()
@@ -21,17 +23,18 @@ public class Rail : MonoBehaviour, IPickableItem
     public void Action(GameObject hitObj)
     {
         //HintRailがあってスペースを押したらレールを設置する
-        if (hitObj.TryGetComponent(out HintRail hintrail))
+        if (hitObj.TryGetComponent(out HintRail hintrail) && hintrail.CanSet)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                Debug.Log("設置ー");
+                RailManager.Instance._rails.Add(this);
                 gameObject.transform.position
-                     = new Vector3(hitObj.transform.position.x, 0, hitObj.transform.position.z);
+                     = new Vector3(hitObj.transform.position.x, -0.25f, hitObj.transform.position.z);
                 //PointManagerクラスを参照してHaveObjResetメソッドを呼び出す
                 PointManager pointManager= transform.parent.gameObject.GetComponent<PointManager>();
                 pointManager.HaveObjReset();
-            }
-            
+            } 
         }
     }
 }
