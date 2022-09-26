@@ -9,18 +9,12 @@ public class HintRail : MonoBehaviour, IPickableItem
     [SerializeField]bool _canSet = true;
     public bool CanSet  {get => _canSet;}
     [SerializeField, Header("RailSetPointの親オブジェクト")]public GameObject _railSetManager;
-    [SerializeField] MeshRenderer _railRenderer;
-    [SerializeField] SphereCollider SphereCollider;
-    [SerializeField] BoxCollider BoxCollider;
-
+    MeshRenderer _railRenderer;
    
     private void Start()
     {
         _railRenderer = GetComponent<MeshRenderer>();
         _railRenderer.enabled = false;
-
-        //BoxCollider.enabled = false;
-        //SphereCollider.enabled = true;
     }
     void OnTriggerEnter(Collider other)
     {
