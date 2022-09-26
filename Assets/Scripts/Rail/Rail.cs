@@ -23,14 +23,14 @@ public class Rail : MonoBehaviour, IPickableItem
     public void Action(GameObject hitObj)
     {
         //HintRailがあってスペースを押したらレールを設置する
-        if (hitObj.TryGetComponent(out HintRail hintrail) && hintrail.CanSet)
+        if (hitObj.TryGetComponent(out HintRail hintrail) && hintrail.CanSet && hintrail.GetComponent<MeshRenderer>().enabled == true)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("設置ー");
                 RailManager.Instance._rails.Add(this);
                 gameObject.transform.position
-                     = new Vector3(hitObj.transform.position.x, -0.25f, hitObj.transform.position.z);
+                     = new Vector3(hitObj.transform.position.x, -0.45f, hitObj.transform.position.z);
                 //PointManagerクラスを参照してHaveObjResetメソッドを呼び出す
                 PointManager pointManager= transform.parent.gameObject.GetComponent<PointManager>();
                 pointManager.HaveObjReset();

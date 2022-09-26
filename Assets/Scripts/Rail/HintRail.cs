@@ -63,20 +63,17 @@ public class HintRail : MonoBehaviour, IPickableItem
     /// </summary>
     public void SetPointSeach(GameObject hitObj)
     {
-        Debug.Log("呼ばれた");
         //hitObjのenumのタイプがNotItemだったらhintRailは表示しない
         if (hitObj.TryGetComponent(out IPickableItem pickable))
         {
             if (pickable.Type == ItemType.NotItem)
             {
                 _canSet = false;
-                //this.gameObject.SetActive(false);
             }   
         }
         else
         {
             _canSet = true;
-            //this.gameObject.SetActive(true);
         }
         //レールがあったら
         if (hitObj.TryGetComponent(out Rail rail))

@@ -53,15 +53,24 @@ public class RailManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// リストの最後以外のRailはenumタイプをNotItemにする
+    /// </summary>
     void ForSetRail()
     {
         foreach(var rail in _rails)
         {
+            //rail == _rails[_rails.Count - 1]? rail.Set(ItemType.NotItem) : rail.Set(ItemType.Rail);
             if (rail != _rails[_rails.Count - 1])
             {
                 rail.Set(ItemType.NotItem);
             }
+            
+            if(rail == _rails[_rails.Count - 1])
+            {
+                rail.Set(ItemType.Rail);
+            }
         }
-        
+            
     }
 }

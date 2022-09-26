@@ -11,9 +11,11 @@ public class PointManager : MonoBehaviour
     ItemGrid _gridScript;
     IPickableItem _iPickScript;
     [SerializeField] bool _canDrop = false;
+    GameObject _nearItem;
 
     public ItemType PickedType { get => _iPickScript.Type; }
     public bool HasObj { get => _iPickScript != null; }
+    [SerializeField] bool _isHave { get => _haveObject != null; }
 
     void Start()
     {
@@ -21,48 +23,11 @@ public class PointManager : MonoBehaviour
     }
     void Update()
     {
-        //_hitItemsを回す
-        foreach (GameObject obj in _hitItems)
-        {
-            //HintRailに触れてた時
-            if (obj.TryGetComponent(out HintRail hintRail))
-            {
-                Debug.Log("置けないよー");
-                _canDrop = false;
-            }
-            else
-            {
-                //Railに触れててそのRailが設置済みのRailの時
-                if (obj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
-                {
-                    Debug.Log("置けないよー");
-                    _canDrop = false;
-                }
-                else
-                {
-                    Debug.Log("置けるよー");
-                    _canDrop = true;
-                }
-            }
-            
-            
-            
-            
-            
-        }
-
-        //アイテム拾うか落とすか
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (HasObj && _canDrop)
-            {
-                ItemDrop();
-            }
-            if (_hitItems.Count > 0)
-            {
-                ToolSeach(_hitItems[0]);
-            }
-        }
+        _nearItem = _hitItems.OrderBy(x =>
+                 Vector3.SqrMagnitude(gameObject.transform.position - x.transform.position)
+                 ).FirstOrDefault();
+        CanDrop();
+        PickOrDrop();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -79,12 +44,62 @@ public class PointManager : MonoBehaviour
     }
 
     /// <summary>
+    /// アイテム拾うか落とすか
+    /// </summary>
+    void PickOrDrop()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (HasObj && _canDrop)
+            {
+                ItemDrop();
+            }
+            if (_hitItems.Count > 0)
+            {
+                HitObjSeach(_nearItem);
+            }
+        }
+    }
+    /// <summary>
+    /// その場にアイテムを落とせるのか調べる
+    /// </summary>
+    void CanDrop()
+    {
+        if (_hitItems.Count < 1)
+        {
+            _canDrop = true;
+        }
+        //_hitItemsを回す
+        foreach (GameObject obj in _hitItems)
+        {
+            //HintRailに触れてた時false
+            if (obj.TryGetComponent(out HintRail hintRail))
+            {
+                _canDrop = false;
+            }
+            else
+            {
+                //Railに触れててそのRailが設置済みのRailの時もfalse
+                if (obj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
+                {
+                    _canDrop = false;
+                }
+                //どっちでもなかったらtrue
+                else
+                {
+                    _canDrop = true;
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// ツール用サーチ
     /// </summary>
     /// <param name="hitObj">当たったobj</param>
-    public void ToolSeach(GameObject hitObj)
+    public void HitObjSeach(GameObject hitObj)
     {
-        if (hitObj.TryGetComponent(out IPickableItem items) && items.Type != ItemType.NotItem)
+        if (hitObj.TryGetComponent(out IPickableItem items) && items.Type != ItemType.NotItem && !_isHave)
         {
             ItemPick(hitObj, items);
         }
@@ -95,9 +110,7 @@ public class PointManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// アイテムを取る
-    /// </summary>
+    /// <summary>アイテムを取る</summary>
     /// <param name="hitObj">拾ったアイテム</param>
     /// <param name="items">IPickableItemのスクリプトの変数</param>
     void ItemPick(GameObject hitObj, IPickableItem items)
