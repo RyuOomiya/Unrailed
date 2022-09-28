@@ -1,20 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
+
 public class RailManager : MonoBehaviour
 {
     //シングルトンにするための処理
     private static RailManager _instance;
     public static RailManager Instance { get => _instance; }
-    //RailSetクラスを参照するための処理↓
+
+    [Header("HintRail")]
     [SerializeField, Header("HintRailクラスがついてるオブジェクト")]
     GameObject _hintRailObj;
     [Tooltip("HintRailスクリプト")] HintRail _hintRailScript;
-    //レール関係↓
+
+    [Header("Rail")]
     [Tooltip("リストの要素数の保持")]private int _railsCount;
     [SerializeField,Header("設置されたレール達")]
     public List<Rail> _rails = new List<Rail>();
+
+    [Header("TrainManager")]
+    [SerializeField, Tooltip("TrainManagerがついてるオブジェクト")] GameObject _train;
+    [Tooltip("TrainManagerスクリプト")] TrainManager _trainManagerScript;
     
     void Awake()
     {
@@ -30,6 +36,8 @@ public class RailManager : MonoBehaviour
         _railsCount = _rails.Count;
         //_railSetObjからRailSetスクリプトを取り出す
         _hintRailScript = _hintRailObj.GetComponent<HintRail>();
+        //_trainからTrainManagerスクリプトを取り出す
+        _trainManagerScript = _train.GetComponent<TrainManager>();
     }
 
     void Update()
@@ -65,10 +73,15 @@ public class RailManager : MonoBehaviour
             {
                 rail.Set(ItemType.NotItem);
             }
-            
+            //最後のRailだけはenumタイプをRailにする
             if(rail == _rails[_rails.Count - 1])
             {
                 rail.Set(ItemType.Rail);
+            }
+
+            if(rail == _rails[_trainManagerScript.NowRailIndex])
+            {
+                rail.Set(ItemType.NotItem);
             }
         }
             

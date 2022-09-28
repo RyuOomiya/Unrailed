@@ -3,32 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class TrainManager : MonoBehaviour
+public class RailTrain : MonoBehaviour
 {
+    [SerializeField] GameObject _rail;
     //デバック用に変える場合がある。本来は0.02f
-    [SerializeField, Tooltip("列車の進むスピード")]public float _moveSpeed = 2f;    
+    [SerializeField, Tooltip("列車の進むスピード")] public float _moveSpeed = 2f;
     [SerializeField, Tooltip("Trainが今踏んでるRailのIndex")] int _nowRailIndex;
     public int NowRailIndex { get => _nowRailIndex; }
     [SerializeField, Tooltip("列車の回転のスピード")] float _rotationSpeed = 0.2f;
     float _step;
     [Tooltip("左に回転")] bool _isRotateL = false;
     [Tooltip("右に回転")] bool _isRotateR = false;
-    
+
     [Tooltip("列車のRIgidbody")] Rigidbody _rb;
     [Tooltip("Raycastのスタート座標")] Vector3 _trainPos;
-    [SerializeField, Tooltip("回転中かどうか")]public static bool _isRotate = false;
+    [SerializeField, Tooltip("回転中かどうか")] bool _isRotate = false;
     Quaternion _currentAngle;
     Quaternion _trainRot;
     float _nextQuaternionL;
     float _nextQuaternionR;
-    
+
     [Header("Raycast")]
     [SerializeField, Tooltip("左Raycast")] Transform _leftR;
     [SerializeField, Tooltip("右Raycast")] Transform _rightR;
     [SerializeField, Tooltip("前Raycast")] Transform _frontR;
     [Tooltip("Raycastを飛ばす座標")] Vector3 _rayPos;
 
-    
+
     void Start()
     {
         _currentAngle = transform.rotation;
@@ -38,9 +39,21 @@ public class TrainManager : MonoBehaviour
     void Update()
     {
         Debug.Log(_nowRailIndex);
-
+        InstantiateRail();
         TrainMove();
-
+        if(!TrainManager._isRotate && FreightTrain._isRotate)
+        {
+            _moveSpeed = 50000f;
+        }
+        
+        if (TrainManager._isRotate)
+        {
+            _moveSpeed = 70000f;
+        }
+        if (!TrainManager._isRotate && !FreightTrain._isRotate)
+        {
+            _moveSpeed = 200000f;
+        }
         if (!_isRotate)
         {
             TrainRaycast();
@@ -48,7 +61,10 @@ public class TrainManager : MonoBehaviour
             _trainRot = gameObject.transform.rotation;
             if (_trainRot == Quaternion.Euler(0, 0, 0))
             {
-                _trainPos.z = RailManager.Instance._rails[NowRailIndex - 1].transform.position.z;
+                if (NowRailIndex > 0)
+                {
+                    _trainPos.z = RailManager.Instance._rails[NowRailIndex - 1].transform.position.z;
+                }
                 _nextQuaternionL = -90;
                 _nextQuaternionR = 90;
             }
@@ -139,7 +155,7 @@ public class TrainManager : MonoBehaviour
         {
             _step = 0f;
             _currentAngle = transform.rotation;
-            _moveSpeed = 300000f;
+            _moveSpeed = 200000f;
             _isRotate = false;
             _isRotateR = false;
 
@@ -160,7 +176,7 @@ public class TrainManager : MonoBehaviour
         {
             _step = 0f;
             _currentAngle = transform.rotation;
-            _moveSpeed = 300000f;
+            _moveSpeed = 200000f;
             _isRotate = false;
             _isRotateL = false;
 
@@ -170,5 +186,17 @@ public class TrainManager : MonoBehaviour
     void TrainMove()
     {
         _rb.AddForce(transform.right * _moveSpeed * Time.deltaTime, ForceMode.Force);
+    }
+
+    void InstantiateRail()
+    {
+        if (FreightTrain.Instance._instanceRail)
+        {
+            Instantiate
+                (_rail, new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z),
+                Quaternion.identity);
+            FreightTrain.Instance._instanceRail = false;
+        }
+
     }
 }

@@ -27,6 +27,7 @@ public class PickAxe : MonoBehaviour , IPickableItem
     }
     public void Action(GameObject hitObj)
     {
+        
         if (hitObj.TryGetComponent(out Rock rock) && !_isSwing)
         {
             Debug.Log("ƒhƒ“");

@@ -5,17 +5,34 @@ using System.Linq;
 
 public class PointManager : MonoBehaviour
 {
+    [Header("シングルトン")]
+    private static PointManager _instance;
+    public static PointManager Instance { get => _instance; }
+
     [SerializeField, Tooltip("拾えるアイテム")]
-    List<GameObject> _hitItems = new List<GameObject>();
+    public List<GameObject> _hitItems = new List<GameObject>();
     GameObject _haveObject;
     ItemGrid _gridScript;
     IPickableItem _iPickScript;
     [SerializeField] bool _canDrop = false;
     GameObject _nearItem;
+    
 
     public ItemType PickedType { get => _iPickScript.Type; }
     public bool HasObj { get => _iPickScript != null; }
     [SerializeField] bool _isHave { get => _haveObject != null; }
+
+    void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -24,20 +41,27 @@ public class PointManager : MonoBehaviour
     void Update()
     {
         _nearItem = _hitItems.OrderBy(x =>
-                 Vector3.SqrMagnitude(gameObject.transform.position - x.transform.position)
-                 ).FirstOrDefault();
+                Vector3.SqrMagnitude(gameObject.transform.position - x.transform.position)
+                ).FirstOrDefault();
         CanDrop();
         PickOrDrop();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<IPickableItem>() != null)
+        if (other.gameObject.TryGetComponent(out IPickableItem items))
         {
             _hitItems.Add(other.gameObject);
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (_iPickScript != null)
+        {
+            _iPickScript.Action(other.gameObject);
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
         _hitItems.Remove(other.gameObject);
@@ -72,24 +96,28 @@ public class PointManager : MonoBehaviour
         //_hitItemsを回す
         foreach (GameObject obj in _hitItems)
         {
-            //HintRailに触れてた時false
-            if (obj.TryGetComponent(out HintRail hintRail))
+            if(obj != null)
             {
-                _canDrop = false;
-            }
-            else
-            {
-                //Railに触れててそのRailが設置済みのRailの時もfalse
-                if (obj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
+                //HintRailに触れてた時false
+                if (obj.TryGetComponent(out HintRail hintRail))
                 {
                     _canDrop = false;
                 }
-                //どっちでもなかったらtrue
                 else
                 {
-                    _canDrop = true;
+                    //Railに触れててそのRailが設置済みのRailの時もfalse
+                    if (obj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
+                    {
+                        _canDrop = false;
+                    }
+                    //どっちでもなかったらtrue
+                    else
+                    {
+                        _canDrop = true;
+                    }
                 }
             }
+            
         }
     }
 
@@ -103,11 +131,6 @@ public class PointManager : MonoBehaviour
         {
             ItemPick(hitObj, items);
         }
-
-        if (_iPickScript != null)
-        {
-            _iPickScript.Action(hitObj);
-        }
     }
 
     /// <summary>アイテムを取る</summary>
@@ -116,7 +139,7 @@ public class PointManager : MonoBehaviour
     void ItemPick(GameObject hitObj, IPickableItem items)
     {
         //拾ったRailが設置済みのRailなら_railsリストから消す
-        if (hitObj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
+        if (hitObj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail) && !_isHave)
         {
             RailManager.Instance._rails.Remove(rail);
         }

@@ -10,6 +10,7 @@ public class HintRail : MonoBehaviour, IPickableItem
     public bool CanSet  {get => _canSet;}
     [SerializeField, Header("RailSetPointの親オブジェクト")]public GameObject _railSetManager;
     MeshRenderer _railRenderer;
+    [SerializeField , Tooltip("ゴールした？")]public static bool _isGoal;
    
     private void Start()
     {
@@ -78,6 +79,10 @@ public class HintRail : MonoBehaviour, IPickableItem
                 Debug.Log("呼ばれたらしい");
                 RailManager.Instance._rails.Add(rail);
             }
+        }
+        if(hitObj.gameObject.name == "GoalRail")
+        {
+            _isGoal = true;
         }
     }
 

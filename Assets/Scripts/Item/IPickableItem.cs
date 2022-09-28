@@ -2,7 +2,6 @@ using UnityEngine;
 public enum ItemType 
 {
     Tool,
-    Resource,
     Rail,
     NotItem,
 }

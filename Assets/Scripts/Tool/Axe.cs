@@ -34,6 +34,11 @@ public class Axe : MonoBehaviour, IPickableItem
             _isSwing = true;
             tree.TreeLife -= 1;
             _timer = 1;
+            //if(tree.TreeLife < 1)
+            //{
+            //    Destroy(tree.gameObject);
+            //    PointManager.Instance._hitItems.Remove(tree.gameObject);
+            //}
         }
     }
 }
