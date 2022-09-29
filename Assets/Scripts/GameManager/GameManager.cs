@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,13 +19,22 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Goal();
+        GameOver();
     }
 
     void Goal()
     {
         if (HintRail._isGoal)
         {
-            _trainManagerScript._moveSpeed = 5000000f;
+            SceneManager.LoadScene("ClearScene");
+        }
+    }
+
+    void GameOver()
+    {
+        if(TrainDestroy._isGameOver)
+        {
+            SceneManager.LoadScene("GameOverScene");
         }
     }
 }

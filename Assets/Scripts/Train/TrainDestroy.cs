@@ -5,14 +5,14 @@ using UnityEngine;
 public class TrainDestroy : MonoBehaviour
 {
     [SerializeField] GameObject _train;
+    public static bool _isGameOver = false;
    
    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out Ground ground))
         {
-            Debug.Log(other.gameObject.name);
-            Destroy(_train);
+            _isGameOver = true;
         }
     }
  
