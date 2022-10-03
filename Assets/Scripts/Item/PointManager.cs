@@ -40,9 +40,7 @@ public class PointManager : MonoBehaviour
     }
     void Update()
     {
-        _nearItem = _hitItems.OrderBy(x =>
-                Vector3.SqrMagnitude(gameObject.transform.position - x.transform.position)
-                ).FirstOrDefault();
+        _nearItem = _hitItems.OrderBy(x => Vector3.SqrMagnitude(gameObject.transform.position - x.transform.position) ).FirstOrDefault();
         CanDrop();
         PickOrDrop();
     }

@@ -37,8 +37,6 @@ public class TrainManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(_nowRailIndex);
-
         TrainMove();
 
         if (!_isRotate)
