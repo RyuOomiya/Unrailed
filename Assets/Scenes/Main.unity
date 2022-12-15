@@ -36696,7 +36696,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.37585306, y: 0.084345, z: -0.034269374, w: 0.9221963}
-  m_LocalPosition: {x: -19, y: 16.94833, z: -17.829386}
+  m_LocalPosition: {x: -24, y: 8, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52621,7 +52621,7 @@ GameObject:
   - component: {fileID: 1353005359}
   m_Layer: 0
   m_Name: WoodStorage
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

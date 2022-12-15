@@ -1,15 +1,15 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
 public class PointManager : MonoBehaviour
 {
-    [Header("ƒVƒ“ƒOƒ‹ƒgƒ“")]
+    [Header("ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³é–¢é€£")]
     private static PointManager _instance;
     public static PointManager Instance { get => _instance; }
 
-    [SerializeField, Tooltip("E‚¦‚éƒAƒCƒeƒ€")]
+    [SerializeField, Tooltip("æ‹¾ãˆã‚‹ã‚¢ã‚¤ãƒ†ãƒ ")]
     public List<GameObject> _hitItems = new List<GameObject>();
     GameObject _haveObject;
     ItemGrid _gridScript;
@@ -40,13 +40,13 @@ public class PointManager : MonoBehaviour
     }
     void Update()
     {
-        _nearItem = _hitItems.OrderBy(x =>
-                Vector3.SqrMagnitude(gameObject.transform.position - x.transform.position)
-                ).FirstOrDefault();
+        NearItemSeach();
         CanDrop();
         PickOrDrop();
+        HitItemRoop();
     }
 
+    //å½“ãŸã£ãŸã‚¢ã‚¤ãƒ†ãƒ ã‚’ãƒªã‚¹ãƒˆã«è¿½åŠ 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out IPickableItem items))
@@ -55,62 +55,73 @@ public class PointManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (_iPickScript != null)
-        {
-            _iPickScript.Action(other.gameObject);
-        }
-    }
+    //é›¢ã‚ŒãŸã‚¢ã‚¤ãƒ†ãƒ ã‚’ãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤
     private void OnTriggerExit(Collider other)
     {
         _hitItems.Remove(other.gameObject);
     }
 
-    /// <summary>
-    /// ƒAƒCƒeƒ€E‚¤‚©—‚Æ‚·‚©
-    /// </summary>
+    /// <summary> Actionãƒ¡ã‚½ãƒƒãƒ‰ã®ãŸã‚ã«hitItemãƒªã‚¹ãƒˆã‚’å›ã™ </summary>
+    void HitItemRoop()
+    {
+        for (int i = 0; i < _hitItems.Count; i++)
+        {
+            if (_iPickScript != null) _iPickScript.Action(_hitItems[i]);
+            //å•é¡Œç‚¹
+            if (_hitItems[i].CompareTag("Item")) Debug.Log("WoodStorageã ãƒ¼");
+        }
+    }
+
+    /// <summary> ä¸€ç•ªè¿‘ã„ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ¢ã™ </summary>
+    void NearItemSeach()
+    {
+        _nearItem = _hitItems.OrderBy(x =>
+               Vector3.SqrMagnitude(gameObject.transform.position - x.transform.position)
+               ).FirstOrDefault();
+    }
+
+    /// <summary> ã‚¢ã‚¤ãƒ†ãƒ æ‹¾ã†ã‹è½ã¨ã™ã‹ </summary>
     void PickOrDrop()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            //ã‚¢ã‚¤ãƒ†ãƒ ã‚’è½ã¨ã™
             if (HasObj && _canDrop)
             {
                 ItemDrop();
             }
+            //ãã®ã‚¢ã‚¤ãƒ†ãƒ ãŒæ‹¾ãˆã‚‹ã‹ç¢ºèª
             if (_hitItems.Count > 0)
             {
                 HitObjSeach(_nearItem);
             }
         }
     }
-    /// <summary>
-    /// ‚»‚Ìê‚ÉƒAƒCƒeƒ€‚ğ—‚Æ‚¹‚é‚Ì‚©’²‚×‚é
-    /// </summary>
+    /// <summary> ãã®å ´ã«ã‚¢ã‚¤ãƒ†ãƒ ã‚’è½ã¨ã›ã‚‹ã®ã‹èª¿ã¹ã‚‹ </summary>
     void CanDrop()
     {
         if (_hitItems.Count < 1)
         {
             _canDrop = true;
         }
-        //_hitItems‚ğ‰ñ‚·
+        //_hitItemsã‚’å›ã™
         foreach (GameObject obj in _hitItems)
         {
             if(obj != null)
             {
-                //HintRail‚ÉG‚ê‚Ä‚½false
+                //HintRailã«è§¦ã‚Œã¦ãŸæ™‚false
                 if (obj.TryGetComponent(out HintRail hintRail))
                 {
                     _canDrop = false;
                 }
                 else
                 {
-                    //Rail‚ÉG‚ê‚Ä‚Ä‚»‚ÌRail‚ªİ’uÏ‚İ‚ÌRail‚Ì‚àfalse
+                    //Railã«è§¦ã‚Œã¦ã¦ãã®RailãŒè¨­ç½®æ¸ˆã¿ã®Railã®æ™‚ã‚‚false
                     if (obj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
                     {
                         _canDrop = false;
                     }
-                    //‚Ç‚Á‚¿‚Å‚à‚È‚©‚Á‚½‚çtrue
+                    //ã©ã£ã¡ã§ã‚‚ãªã‹ã£ãŸã‚‰true
                     else
                     {
                         _canDrop = true;
@@ -121,10 +132,8 @@ public class PointManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// ƒc[ƒ‹—pƒT[ƒ`
-    /// </summary>
-    /// <param name="hitObj">“–‚½‚Á‚½obj</param>
+    /// <summary> æ‹¾ãˆã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã‹ç¢ºèª </summary>
+    /// <param name="hitObj">å½“ãŸã£ãŸobj</param>
     public void HitObjSeach(GameObject hitObj)
     {
         if (hitObj.TryGetComponent(out IPickableItem items) && items.Type != ItemType.NotItem && !_isHave)
@@ -133,12 +142,12 @@ public class PointManager : MonoBehaviour
         }
     }
 
-    /// <summary>ƒAƒCƒeƒ€‚ğæ‚é</summary>
-    /// <param name="hitObj">E‚Á‚½ƒAƒCƒeƒ€</param>
-    /// <param name="items">IPickableItem‚ÌƒXƒNƒŠƒvƒg‚Ì•Ï”</param>
+    /// <summary> ã‚¢ã‚¤ãƒ†ãƒ ã‚’å–ã‚‹ </summary>
+    /// <param name="hitObj">æ‹¾ã£ãŸã‚¢ã‚¤ãƒ†ãƒ </param>
+    /// <param name="items">IPickableItemã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã®å¤‰æ•°</param>
     void ItemPick(GameObject hitObj, IPickableItem items)
     {
-        //E‚Á‚½Rail‚ªİ’uÏ‚İ‚ÌRail‚È‚ç_railsƒŠƒXƒg‚©‚çÁ‚·
+        //æ‹¾ã£ãŸRailãŒè¨­ç½®æ¸ˆã¿ã®Railãªã‚‰_railsãƒªã‚¹ãƒˆã‹ã‚‰æ¶ˆã™
         if (hitObj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail) && !_isHave)
         {
             RailManager.Instance._rails.Remove(rail);
@@ -149,20 +158,14 @@ public class PointManager : MonoBehaviour
         Input.ResetInputAxes();
         hitObj.transform.parent = this.gameObject.transform;
         hitObj.transform.position = this.gameObject.transform.position;
-        Debug.Log("Tool‚ğæ‚Á‚½");
     }
 
-    /// <summary>
-    /// ƒAƒCƒeƒ€—‚Æ‚·
-    /// </summary>
+    /// <summary> ã‚¢ã‚¤ãƒ†ãƒ è½ã¨ã™ </summary>
     private void ItemDrop()
     {
-        if (_haveObject == null)
-        {
-            return;
-        }
-        Debug.Log("ƒAƒCƒeƒ€‚ğ—‚Æ‚µ‚½");
-        //ˆê”Ô‹ß‚¢ƒ}ƒX‚É—‚Æ‚·
+        if (_haveObject == null) return;
+
+        //ä¸€ç•ªè¿‘ã„ãƒã‚¹ã«è½ã¨ã™
         _haveObject.transform.position
             = new Vector3(_gridScript.Point.transform.position.x,
                         0, _gridScript.Point.transform.position.z);
@@ -170,9 +173,7 @@ public class PointManager : MonoBehaviour
         HaveObjReset();
     }
 
-    /// <summary>
-    /// ƒAƒCƒeƒ€—‚Æ‚µ‚½‚çƒŠƒZƒbƒg
-    /// </summary>
+    /// <summary> ã‚¢ã‚¤ãƒ†ãƒ è½ã¨ã—ãŸã‚‰ãƒªã‚»ãƒƒãƒˆ </summary>
     public void HaveObjReset()
     {
         _haveObject.transform.parent = null;

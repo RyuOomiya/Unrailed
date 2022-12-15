@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//“dÔ‚ª‰ó‚ê‚é‚Æ‚«‚Ìˆ—
 public class TrainDestroy : MonoBehaviour
 {
     [SerializeField] GameObject _train;
@@ -14,16 +15,5 @@ public class TrainDestroy : MonoBehaviour
         {
             _isGameOver = true;
         }
-    }
- 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

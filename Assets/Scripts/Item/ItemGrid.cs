@@ -9,11 +9,6 @@ public class ItemGrid : MonoBehaviour
     public GameObject Point { get => _point; }
     List<GameObject> _points = new List<GameObject>();
    
-    void Start()
-    {
-
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.GetComponent<Ground>())

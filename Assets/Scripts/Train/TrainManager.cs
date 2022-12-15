@@ -22,6 +22,7 @@ public class TrainManager : MonoBehaviour
     float _nextQuaternionL;
     float _nextQuaternionR;
     
+    //—ñÔ‚Ì‘O‚Æ¶‰E‚ÉRay
     [Header("Raycast")]
     [SerializeField, Tooltip("¶Raycast")] Transform _leftR;
     [SerializeField, Tooltip("‰ERaycast")] Transform _rightR;
