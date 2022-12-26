@@ -8,7 +8,7 @@ public class TrainManager : MonoBehaviour
     //デバック用に変える場合がある。本来は0.02f
     [SerializeField, Tooltip("列車の進むスピード")]public float _moveSpeed = 2f;    
     [SerializeField, Tooltip("Trainが今踏んでるRailのIndex")] int _nowRailIndex;
-    public int NowRailIndex { get => _nowRailIndex; }
+    [Tooltip("列車が進んでいるレールのindex")]public int NowRailIndex { get => _nowRailIndex; }
     [SerializeField, Tooltip("列車の回転のスピード")] float _rotationSpeed = 0.2f;
     float _step;
     [Tooltip("左に回転")] bool _isRotateL = false;
