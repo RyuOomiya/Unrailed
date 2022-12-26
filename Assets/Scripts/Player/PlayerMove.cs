@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour
 
         Vector3 diff = transform.position - _playerPos;
         //ベクトルの長さが0.01fより大きい場合にプレイヤーの向きを変える処理を入れる
-        if (diff.magnitude > 0.01f)
+        if (diff.magnitude > 0.05f)
         {
             //ベクトルの情報をQuaternion.LookRotationに引き渡し回転量を取得しプレイヤーを回転させる
             transform.rotation = Quaternion.LookRotation(diff);
@@ -57,6 +57,5 @@ public class PlayerMove : MonoBehaviour
     {
         var speedVec = new Vector3(_x , 0 , _z);
         _rb.velocity = speedVec.normalized * _speed;
-       
     }
 }
