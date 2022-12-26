@@ -21,7 +21,7 @@ public class Wood : MonoBehaviour , IPickableItem
 
     public void Action(GameObject hitObj)
     {
-        if(hitObj.gameObject.name == "WoodStorage")
+        if(hitObj.gameObject.CompareTag("Item"))
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {

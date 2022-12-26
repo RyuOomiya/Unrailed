@@ -49,7 +49,11 @@ public class PointManager : MonoBehaviour
     //当たったアイテムをリストに追加
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent(out IPickableItem items))
+        if (other.gameObject.TryGetComponent(out Ground ground))
+        {
+            return;
+        }
+        else
         {
             _hitItems.Add(other.gameObject);
         }
