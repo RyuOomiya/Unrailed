@@ -9,6 +9,6 @@ public enum ItemType
 
 public interface IPickableItem
 {
-    ItemType Type { get; }
     void Action(GameObject hitObj);
+    ItemType GetType();
 }

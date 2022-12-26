@@ -8,7 +8,6 @@ public class PickAxe : MonoBehaviour , IPickableItem
     [Tooltip("タイマーとセットで使う")] bool _isSwing;
     [Tooltip("アイテムタイプ"), SerializeField] ItemType _type;
 
-    public ItemType Type { get => _type; }
     void Update()
     {
         CoolTime();
@@ -35,6 +34,11 @@ public class PickAxe : MonoBehaviour , IPickableItem
             rock.RockLife -= 1;
             _timer = 1;
         }
+    }
+
+    ItemType IPickableItem.GetType()
+    {
+        return _type;
     }
 }
 

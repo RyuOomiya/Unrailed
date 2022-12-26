@@ -6,9 +6,7 @@ public class Axe : MonoBehaviour, IPickableItem
 {
     [Tooltip("一定間隔で壊すためのタイマー")]float _timer = 0;
     [Tooltip("タイマーとセットで使う")]bool _isSwing;
-    [Tooltip("アイテムタイプ"),SerializeField] ItemType _type; 
-
-    public ItemType Type { get => _type;}
+    [Tooltip("アイテムタイプ"),SerializeField] ItemType _type;
 
     void Update()
     {
@@ -40,5 +38,10 @@ public class Axe : MonoBehaviour, IPickableItem
             //    PointManager.Instance._hitItems.Remove(tree.gameObject);
             //}
         }
+    }
+
+    ItemType IPickableItem.GetType()
+    {
+        return _type;
     }
 }

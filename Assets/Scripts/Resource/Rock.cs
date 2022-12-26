@@ -5,15 +5,10 @@ using UnityEngine;
 public class Rock : MonoBehaviour, IPickableItem
 {
     [Tooltip("アイテムタイプ"), SerializeField] ItemType _type;
-    public ItemType Type { get => _type; }
     int _rockLife = 3;
     [SerializeField] GameObject _stone;
     public int RockLife { get { return _rockLife; } set { _rockLife = value; } }
     
-    void Start()
-    {
-        
-    }
     void Update()
     {
         if (_rockLife <= 0)
@@ -26,5 +21,10 @@ public class Rock : MonoBehaviour, IPickableItem
     public void Action(GameObject hitObj)
     {
 
+    }
+
+    ItemType IPickableItem.GetType()
+    {
+        return _type;
     }
 }

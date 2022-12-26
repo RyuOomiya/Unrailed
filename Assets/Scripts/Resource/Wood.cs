@@ -5,19 +5,8 @@ using UnityEngine;
 public class Wood : MonoBehaviour , IPickableItem
 {
     [Tooltip("アイテムタイプ"), SerializeField] ItemType _type;
-    public ItemType Type { get => _type; }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     public void Action(GameObject hitObj)
     {
@@ -34,5 +23,10 @@ public class Wood : MonoBehaviour , IPickableItem
                 pointManager.HaveObjReset();
             }
         }
+    }
+
+    ItemType IPickableItem.GetType()
+    {
+        return _type;
     }
 }

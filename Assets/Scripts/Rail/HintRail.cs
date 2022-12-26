@@ -5,7 +5,6 @@ using UnityEngine;
 public class HintRail : MonoBehaviour, IPickableItem
 {
     [Tooltip("アイテムタイプ"), SerializeField] ItemType _type;
-    public ItemType Type { get => _type; }
     [SerializeField]bool _canSet = true;
     public bool CanSet  {get => _canSet;}
     [SerializeField, Header("RailSetPointの親オブジェクト")]public GameObject _railSetManager;
@@ -61,7 +60,7 @@ public class HintRail : MonoBehaviour, IPickableItem
         //hitObjのenumのタイプがNotItemだったらhintRailは表示しない
         if (hitObj.TryGetComponent(out IPickableItem pickable))
         {
-            if (pickable.Type == ItemType.NotItem)
+            if (pickable.GetType() == ItemType.NotItem)
             {
                 _canSet = false;
             }   
@@ -89,5 +88,10 @@ public class HintRail : MonoBehaviour, IPickableItem
     public void Action(GameObject hitObj)
     {
 
+    }
+
+    ItemType IPickableItem.GetType()
+    {
+        return _type;
     }
 }

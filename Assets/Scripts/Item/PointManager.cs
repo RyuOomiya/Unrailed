@@ -18,9 +18,9 @@ public class PointManager : MonoBehaviour
     GameObject _nearItem;
     
 
-    public ItemType PickedType { get => _iPickScript.Type; }
+    public ItemType PickedType { get => _iPickScript.GetType(); }
     public bool HasObj { get => _iPickScript != null; }
-    [SerializeField] bool _isHave { get => _haveObject != null; }
+    [SerializeField,Tooltip("アイテム持ってる？")] bool _isHave { get => _haveObject != null; }
 
     void Awake()
     {
@@ -49,6 +49,7 @@ public class PointManager : MonoBehaviour
     //当たったアイテムをリストに追加
     private void OnTriggerEnter(Collider other)
     {
+        //地面だったら_hitItemsリストに追加しない
         if (other.gameObject.TryGetComponent(out Ground ground))
         {
             return;
@@ -71,8 +72,6 @@ public class PointManager : MonoBehaviour
         for (int i = 0; i < _hitItems.Count; i++)
         {
             if (_iPickScript != null) _iPickScript.Action(_hitItems[i]);
-            //問題点
-            if (_hitItems[i].CompareTag("Item")) Debug.Log("WoodStorageだー");
         }
     }
 
@@ -140,7 +139,7 @@ public class PointManager : MonoBehaviour
     /// <param name="hitObj">当たったobj</param>
     public void HitObjSeach(GameObject hitObj)
     {
-        if (hitObj.TryGetComponent(out IPickableItem items) && items.Type != ItemType.NotItem && !_isHave)
+        if (hitObj.TryGetComponent(out IPickableItem items) && items.GetType() != ItemType.NotItem && !_isHave)
         {
             ItemPick(hitObj, items);
         }
@@ -167,7 +166,7 @@ public class PointManager : MonoBehaviour
     /// <summary> アイテム落とす </summary>
     private void ItemDrop()
     {
-        if (_haveObject == null) return;
+        if (!HasObj) return;
 
         //一番近いマスに落とす
         _haveObject.transform.position
@@ -177,7 +176,7 @@ public class PointManager : MonoBehaviour
         HaveObjReset();
     }
 
-    /// <summary> アイテム落としたらリセット </summary>
+    /// <summary> 持っているアイテムの情報をリセットする処理 </summary>
     public void HaveObjReset()
     {
         _haveObject.transform.parent = null;

@@ -5,7 +5,6 @@ using UnityEngine;
 public class Stone : MonoBehaviour , IPickableItem
 {
     [Tooltip("アイテムタイプ"), SerializeField] ItemType _type;
-    public ItemType Type { get => _type; }
    
     void Start()
     {
@@ -33,5 +32,10 @@ public class Stone : MonoBehaviour , IPickableItem
                 pointManager.HaveObjReset();
             }
         }
+    }
+
+    ItemType IPickableItem.GetType()
+    {
+        return _type;
     }
 }

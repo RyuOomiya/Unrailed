@@ -5,7 +5,6 @@ using UnityEngine;
 public class Rail : MonoBehaviour, IPickableItem
 {
     [Tooltip("アイテムタイプ"), SerializeField] ItemType _type;
-    public ItemType Type { get => _type; }
 
     public void Set(ItemType type)
     {
@@ -36,5 +35,10 @@ public class Rail : MonoBehaviour, IPickableItem
                 pointManager.HaveObjReset();
             } 
         }
+    }
+
+    ItemType IPickableItem.GetType()
+    {
+        return _type;
     }
 }

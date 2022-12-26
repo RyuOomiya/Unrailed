@@ -5,7 +5,6 @@ using UnityEngine;
 public class Tree : MonoBehaviour , IPickableItem
 {
     [Tooltip("アイテムタイプ"), SerializeField] ItemType _type;
-    public ItemType Type { get => _type; }
     int _treeLife = 3;
     public int TreeLife { get { return _treeLife; } set { _treeLife = value; } }
     [SerializeField]GameObject _wood;
@@ -23,5 +22,10 @@ public class Tree : MonoBehaviour , IPickableItem
     public void Action(GameObject hitObj)
     {
 
+    }
+
+    ItemType IPickableItem.GetType()
+    {
+        return _type;
     }
 }
