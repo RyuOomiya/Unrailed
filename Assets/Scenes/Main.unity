@@ -74343,6 +74343,7 @@ GameObject:
   - component: {fileID: 1897758994}
   - component: {fileID: 1897758997}
   - component: {fileID: 1897758996}
+  - component: {fileID: 1897759001}
   - component: {fileID: 1897758995}
   - component: {fileID: 1897758999}
   - component: {fileID: 1897759000}
@@ -74463,10 +74464,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rail: {fileID: 7876803824876636059, guid: ebbcfad0369ba644fba141cda3f7f980, type: 3}
+--- !u!114 &1897759001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897758993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7029ce478f82e394ab72b3f0acca26d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _moveSpeed: 200000
-  _nowRailIndex: 0
-  _rotationSpeed: 0.2
-  _isRotate: 0
+  _nowRailIndex: 1
+  _rotationSpeed: 0.04
   _leftR: {fileID: 1267582735}
   _rightR: {fileID: 1291090429}
   _frontR: {fileID: 772042124}
@@ -76260,6 +76272,7 @@ GameObject:
   - component: {fileID: 1952485821}
   - component: {fileID: 1952485825}
   - component: {fileID: 1952485826}
+  - component: {fileID: 1952485827}
   m_Layer: 0
   m_Name: Train
   m_TagString: Untagged
@@ -76363,7 +76376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 200000
   _nowRailIndex: 4
-  _rotationSpeed: 0.04
+  _rotationSpeed: 0.1
   _leftR: {fileID: 383610911}
   _rightR: {fileID: 765116882}
   _frontR: {fileID: 2047768723}
@@ -76383,6 +76396,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!138 &1952485827
+FixedJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952485820}
+  m_ConnectedBody: {fileID: 1958799440}
+  m_ConnectedArticulationBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1001 &1952826216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76451,9 +76479,11 @@ GameObject:
   - component: {fileID: 1958799435}
   - component: {fileID: 1958799438}
   - component: {fileID: 1958799437}
+  - component: {fileID: 1958799442}
   - component: {fileID: 1958799436}
   - component: {fileID: 1958799440}
   - component: {fileID: 1958799441}
+  - component: {fileID: 1958799443}
   m_Layer: 0
   m_Name: freight train
   m_TagString: Untagged
@@ -76572,17 +76602,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 922e6f0e137bff242ad91325d253b82a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 200000
-  _nowRailIndex: 2
-  _rotationSpeed: 0.2
-  _leftR: {fileID: 1871596435}
-  _rightR: {fileID: 1097395829}
-  _frontR: {fileID: 1036971945}
   _woodsSetCollider: {fileID: 1353005357}
   _stonesSetCollider: {fileID: 1458083502}
   _woods: []
   _stones: []
   _instanceRail: 0
+--- !u!114 &1958799442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958799434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7029ce478f82e394ab72b3f0acca26d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 200000
+  _nowRailIndex: 3
+  _rotationSpeed: 0.04
+  _leftR: {fileID: 1871596435}
+  _rightR: {fileID: 1097395829}
+  _frontR: {fileID: 1036971945}
+--- !u!138 &1958799443
+FixedJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958799434}
+  m_ConnectedBody: {fileID: 1897758999}
+  m_ConnectedArticulationBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1 &1958811209
 GameObject:
   m_ObjectHideFlags: 0
@@ -81954,7 +82011,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091329734}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00000029802322, y: 0, z: 0}
+  m_LocalPosition: {x: 0.501, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []

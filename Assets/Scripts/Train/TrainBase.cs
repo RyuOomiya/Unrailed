@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class TrainManager : MonoBehaviour
+public class TrainBase : MonoBehaviour
 {
     //デバック用に変える場合がある。本来は0.02f
     [SerializeField, Tooltip("列車の進むスピード")]public float _moveSpeed = 2f;    

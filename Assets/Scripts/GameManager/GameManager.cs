@@ -7,12 +7,12 @@ public class GameManager : MonoBehaviour
 {
     [Header("TrainManager")]
     [SerializeField, Tooltip("TrainManagerがついてるオブジェクト")] GameObject _train;
-    [Tooltip("TrainManagerスクリプト")] TrainManager _trainManagerScript;
+    [Tooltip("TrainManagerスクリプト")] TrainBase _trainManagerScript;
     // Start is called before the first frame update
     void Start()
     {
         //_trainからTrainManagerスクリプトを取り出す
-        _trainManagerScript = _train.GetComponent<TrainManager>();
+        _trainManagerScript = _train.GetComponent<TrainBase>();
     }
 
     // Update is called once per frame

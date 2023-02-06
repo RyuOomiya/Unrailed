@@ -113,7 +113,7 @@ public class PointManager : MonoBehaviour
             if(obj != null)
             {
                 //HintRailに触れてた時false
-                if (obj.TryGetComponent(out HintRail hintRail))
+                if (obj.TryGetComponent(out HintRail hintRail)) //ここに列車にも置けない処理を書く
                 {
                     _canDrop = false;
                 }
