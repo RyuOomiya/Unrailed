@@ -10,15 +10,7 @@ public class Rail : MonoBehaviour, IPickableItem
     {
         _type = type;
     }
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-
-    }
+    
     public void Action(GameObject hitObj)
     {
         //HintRailがあってスペースを押したらレールを設置する

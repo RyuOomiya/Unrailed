@@ -5,8 +5,6 @@ using System.Linq;
 
 public class FreightTrain : MonoBehaviour
 {
-
-
     //デバック用に変える場合がある。本来は200000f
     [SerializeField, Tooltip("列車の進むスピード")] public float _moveSpeed = 2f;
     [SerializeField, Tooltip("Trainが今踏んでるRailのIndex")] int _nowRailIndex;
@@ -232,10 +230,10 @@ public class FreightTrain : MonoBehaviour
         {
             _destroyWood = _woods[0];
             _destroyStone = _stones[0];
+            PointManager.Instance._hitItems.Remove(_woods[0]);
+            PointManager.Instance._hitItems.Remove(_stones[0]);
             _woods.Remove(_woods[0]);
             _stones.Remove(_stones[0]);
-            //PointManager.Instance._hitItems.Remove(_woods[0]);
-            //PointManager.Instance._hitItems.Remove(_stones[0]);
             Destroy(_destroyWood);
             Destroy(_destroyStone);
             _instanceRail = true;
