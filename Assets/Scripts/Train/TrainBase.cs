@@ -7,18 +7,18 @@ public class TrainBase : MonoBehaviour
 {
     //デバック用に変える場合がある。本来は0.02f
     [SerializeField, Tooltip("列車の進むスピード")]public float _moveSpeed = 2f;    
-    [SerializeField, Tooltip("Trainが今踏んでるRailのIndex")] int _nowRailIndex;
-    [Tooltip("列車が進んでいるレールのindex")]public int NowRailIndex { get => _nowRailIndex; }
+    [SerializeField, Tooltip("列車が今踏んでるRailのIndex")] int _nowRailIndex;
+    [Tooltip("列車が今踏んでいるRailのIndex")]public int NowRailIndex { get => _nowRailIndex; }
     [SerializeField, Tooltip("列車の回転のスピード")] float _rotationSpeed = 0.2f;
     float _step;
     [Tooltip("左に回転")] bool _isRotateL = false;
     [Tooltip("右に回転")] bool _isRotateR = false;
     
-    [Tooltip("列車のRIgidbody")] Rigidbody _rb;
-    [Tooltip("Raycastのスタート座標")] Vector3 _trainPos;
-    [SerializeField, Tooltip("回転中かどうか")]public static bool _isRotate = false;
-    Quaternion _currentAngle;
+    [Tooltip("列車のRigidbody")] Rigidbody _rb;
+    [Tooltip("列車のPosition")] Vector3 _trainPos;
     Quaternion _trainRot;
+    [SerializeField, Tooltip("回転中かどうか")]public static bool _isRotate = false;
+    
     float _nextQuaternionL;
     float _nextQuaternionR;
     
@@ -30,9 +30,8 @@ public class TrainBase : MonoBehaviour
     [Tooltip("Raycastを飛ばす座標")] Vector3 _rayPos;
 
     
-    void Start()
+    void Awake()
     {
-        _currentAngle = transform.rotation;
         _rb = GetComponent<Rigidbody>();
     }
 
@@ -131,13 +130,13 @@ public class TrainBase : MonoBehaviour
             _moveSpeed = 75000f;
             _isRotate = true;
             _step += _rotationSpeed * Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(_currentAngle, Quaternion.Euler(0, _nextQuaternionR, 0), _step);
+            transform.rotation = Quaternion.Slerp(_trainRot, Quaternion.Euler(0, _nextQuaternionR, 0), _step);
 
         }
         if (_step >= 1)
         {
             _step = 0f;
-            _currentAngle = transform.rotation;
+            _trainRot = transform.rotation;
             _moveSpeed = 300000f;
             _isRotate = false;
             _isRotateR = false;
@@ -152,13 +151,13 @@ public class TrainBase : MonoBehaviour
             _moveSpeed = 75000f;
             _isRotate = true;
             _step += _rotationSpeed * Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(_currentAngle, Quaternion.Euler(0, _nextQuaternionL, 0), _step);
+            transform.rotation = Quaternion.Slerp(_trainRot, Quaternion.Euler(0, _nextQuaternionL, 0), _step);
 
         }
         if (_step >= 1)
         {
             _step = 0f;
-            _currentAngle = transform.rotation;
+            _trainRot = transform.rotation;
             _moveSpeed = 300000f;
             _isRotate = false;
             _isRotateL = false;
