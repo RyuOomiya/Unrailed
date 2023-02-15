@@ -20,7 +20,7 @@ public class RailManager : MonoBehaviour
 
     [Header("TrainManager")]
     [SerializeField, Tooltip("TrainManagerがついてるオブジェクト")] GameObject _train;
-    [Tooltip("TrainManagerスクリプト")] TrainBase _trainManagerScript;
+    [Tooltip("TrainManagerスクリプト")] TrainBase _trainBaseScript;
     
     void Awake()
     {
@@ -37,7 +37,7 @@ public class RailManager : MonoBehaviour
         //_railSetObjからRailSetスクリプトを取り出す
         _hintRailScript = _hintRailObj.GetComponent<HintRail>();
         //_trainからTrainManagerスクリプトを取り出す
-        _trainManagerScript = _train.GetComponent<TrainBase>();
+        _trainBaseScript = _train.GetComponent<TrainBase>();
     }
 
     void Update()
@@ -79,7 +79,7 @@ public class RailManager : MonoBehaviour
                 rail.Set(ItemType.Rail);
             }
 
-            if(rail == _rails[_trainManagerScript.NowRailIndex])
+            if(rail == _rails[_trainBaseScript.NowRailIndex])
             {
                 rail.Set(ItemType.NotItem);
             }

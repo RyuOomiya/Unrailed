@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class TrainBase : MonoBehaviour
+public class TrainChild : MonoBehaviour
 {
     //デバック用に変える場合がある。本来は0.02f
-    [SerializeField, Tooltip("列車の進むスピード")]public float _moveSpeed = 2f;    
+    [SerializeField, Tooltip("列車の進むスピード")] public float _moveSpeed = 2f;
     [SerializeField, Tooltip("列車が今踏んでるRailのIndex")] int _nowRailIndex;
-    [Tooltip("列車が今踏んでいるRailのIndex")]public int NowRailIndex { get => _nowRailIndex; }
+    [Tooltip("列車が今踏んでいるRailのIndex")] public int NowRailIndex { get => _nowRailIndex; }
     [SerializeField, Tooltip("列車の回転のスピード")] float _rotationSpeed = 0.2f;
     float _step;
     [Tooltip("左に回転")] bool _isRotateL = false;
     [Tooltip("右に回転")] bool _isRotateR = false;
-    
+
     [Tooltip("列車のRigidbody")] Rigidbody _rb;
     [Tooltip("列車のPosition")] Vector3 _trainPos;
     Quaternion _trainRot;
-    [SerializeField, Tooltip("回転中かどうか")]public static bool _isRotate = false;
-    
-    [Tooltip("Ｙ軸を基準とした列車の左")]　float _nextQuaternionL;
+    [SerializeField, Tooltip("回転中かどうか")] public static bool _isRotate = false;
+
+    [Tooltip("Ｙ軸を基準とした列車の左")] float _nextQuaternionL;
     [Tooltip("Ｙ軸を基準とした列車の右")] float _nextQuaternionR;
-    
+
     //列車の前と左右にRay
     [Header("Raycast")]
     [SerializeField, Tooltip("左Raycast")] Transform _leftR;
@@ -29,7 +29,7 @@ public class TrainBase : MonoBehaviour
     [SerializeField, Tooltip("前Raycast")] Transform _frontR;
     [Tooltip("Raycastを飛ばす座標")] Vector3 _rayPos;
 
-    
+
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -37,8 +37,6 @@ public class TrainBase : MonoBehaviour
 
     void Update()
     {
-        TrainMove();
-
         //回転中でないならRayを飛ばして次のレールを判定
         if (!_isRotate)
         {
@@ -174,11 +172,5 @@ public class TrainBase : MonoBehaviour
             _isRotate = false;
             _isRotateL = false;
         }
-    }
-
-    void TrainMove()
-    {
-       _rb.AddForce(transform.right * _moveSpeed * Time.deltaTime);
-        Debug.Log(transform.right * _moveSpeed * Time.deltaTime);
     }
 }
