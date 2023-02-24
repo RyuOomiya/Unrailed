@@ -11,13 +11,15 @@ public class TrainBase : MonoBehaviour
     [Tooltip("列車が今踏んでいるRailのIndex")]public int NowRailIndex { get => _nowRailIndex; }
     [SerializeField, Tooltip("列車の回転のスピード")] float _rotationSpeed = 0.2f;
     float _step;
+
+    [SerializeField, Tooltip("回転中かどうか")] public bool _isRotate = false;
     [Tooltip("左に回転")] bool _isRotateL = false;
     [Tooltip("右に回転")] bool _isRotateR = false;
     
     [Tooltip("列車のRigidbody")] Rigidbody _rb;
     [Tooltip("列車のPosition")] Vector3 _trainPos;
     Quaternion _trainRot;
-    [SerializeField, Tooltip("回転中かどうか")]public static bool _isRotate = false;
+    
     
     [Tooltip("Ｙ軸を基準とした列車の左")]　float _nextQuaternionL;
     [Tooltip("Ｙ軸を基準とした列車の右")] float _nextQuaternionR;
@@ -32,7 +34,7 @@ public class TrainBase : MonoBehaviour
     
     void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
+        //_rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -46,7 +48,7 @@ public class TrainBase : MonoBehaviour
             _trainPos = gameObject.transform.position;
             _trainRot = gameObject.transform.rotation;
 
-            //列車が回転しきったら位置を修正して、列車の左右となるｙ軸の数値を更新する
+            //列車が回転しきったら位置を修正して、列車のｙ軸の数値を更新する
             if (_trainRot == Quaternion.Euler(0, 0, 0))
             {
                 _trainPos.z = RailManager.Instance._rails[NowRailIndex - 1].transform.position.z;
@@ -134,7 +136,7 @@ public class TrainBase : MonoBehaviour
         //曲がり切ったか判定
         if (_step < 1)  //曲がり切ってない
         {
-            _moveSpeed = 75000f;
+            _moveSpeed = 0.01f;
             _isRotate = true;
             _step += _rotationSpeed * Time.deltaTime;
             transform.rotation = Quaternion.Slerp(_trainRot, Quaternion.Euler(0, _nextQuaternionR, 0), _step);
@@ -145,7 +147,7 @@ public class TrainBase : MonoBehaviour
             //初期化
             _step = 0f;
             _trainRot = transform.rotation;
-            _moveSpeed = 300000f;
+            _moveSpeed = 0.04f;
             _isRotate = false;
             _isRotateR = false;
 
@@ -159,7 +161,7 @@ public class TrainBase : MonoBehaviour
     {
         if (_step < 1)  //曲がり切ってない
         {
-            _moveSpeed = 75000f;
+            _moveSpeed = 0.01f;
             _isRotate = true;
             _step += _rotationSpeed * Time.deltaTime;
             transform.rotation = Quaternion.Slerp(_trainRot, Quaternion.Euler(0, _nextQuaternionL, 0), _step);
@@ -170,7 +172,7 @@ public class TrainBase : MonoBehaviour
             //初期化
             _step = 0f;
             _trainRot = transform.rotation;
-            _moveSpeed = 300000f;
+            _moveSpeed = 0.1f;
             _isRotate = false;
             _isRotateL = false;
         }
@@ -178,7 +180,7 @@ public class TrainBase : MonoBehaviour
 
     void TrainMove()
     {
-       _rb.AddForce(transform.right * _moveSpeed * Time.deltaTime);
+        transform.position += transform.right * _moveSpeed * Time.deltaTime;
         Debug.Log(transform.right * _moveSpeed * Time.deltaTime);
     }
 }
