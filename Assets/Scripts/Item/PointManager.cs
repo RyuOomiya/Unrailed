@@ -115,15 +115,22 @@ public class PointManager : MonoBehaviour
                 if (obj.TryGetComponent(out TrainBase tb))
                 {
                     _canDrop = false;
+                    break;
                 }
 
                 //HintRailに触れてた時false
-                if (obj.TryGetComponent(out HintRail hintRail)) _canDrop = false;
-
+                if (obj.TryGetComponent(out HintRail hintRail))
+                {
+                    _canDrop = false;
+                    break;
+                }
+               
                 //Railに触れててそのRailが設置済みのRailの時もfalse
                 if (obj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
                 {
                     _canDrop = false;
+                    break;
+                    Debug.Log("これはレールです");
                 }
                 
                 _canDrop = true;
