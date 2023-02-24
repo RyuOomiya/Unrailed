@@ -16,11 +16,11 @@ public class PointManager : MonoBehaviour
     IPickableItem _iPickScript;
     [SerializeField] bool _canDrop = false;
     GameObject _nearItem;
-    
+
 
     public ItemType PickedType { get => _iPickScript.GetType(); }
     public bool HasObj { get => _iPickScript != null; }
-    [SerializeField,Tooltip("アイテム持ってる？")] bool _isHave { get => _haveObject != null; }
+    [SerializeField, Tooltip("アイテム持ってる？")] bool _isHave { get => _haveObject != null; }
 
     void Awake()
     {
@@ -110,30 +110,27 @@ public class PointManager : MonoBehaviour
         //_hitItemsを回す
         foreach (GameObject obj in _hitItems)
         {
-            if(obj != null)
+            if (obj != null)
             {
-                //HintRailに触れてた時false
-                if (obj.TryGetComponent(out HintRail hintRail)) //ここに列車にも置けない処理を書く
+                if (obj.TryGetComponent(out TrainBase tb))
                 {
                     _canDrop = false;
                 }
-                else
+
+                //HintRailに触れてた時false
+                if (obj.TryGetComponent(out HintRail hintRail)) _canDrop = false;
+
+                //Railに触れててそのRailが設置済みのRailの時もfalse
+                if (obj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
                 {
-                    //Railに触れててそのRailが設置済みのRailの時もfalse
-                    if (obj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
-                    {
-                        _canDrop = false;
-                    }
-                    //どっちでもなかったらtrue
-                    else
-                    {
-                        _canDrop = true;
-                    }
+                    _canDrop = false;
                 }
+                
+                _canDrop = true;
             }
-            
         }
     }
+
 
     /// <summary> 拾えるアイテムか確認 </summary>
     /// <param name="hitObj">当たったobj</param>
