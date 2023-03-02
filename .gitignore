@@ -1,5 +1,8 @@
 git rm -r --cached [AssetStoreTools] //ファイル指定してキャッシュ削除
 
+# .gitignore の除外ファイルをすべて表示するコマンド　
+$ git status --ignored
+
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
