@@ -1,4 +1,4 @@
-$ git rm -r --cached [AssetStoreTools] //ファイル指定してキャッシュ削除
+git rm -r --cached [AssetStoreTools] //ファイル指定してキャッシュ削除
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
