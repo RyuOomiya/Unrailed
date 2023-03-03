@@ -119,11 +119,11 @@ public class PointManager : MonoBehaviour
                 }
 
                 //HintRailに触れてた時false
-                if (obj.TryGetComponent(out HintRail hintRail))
-                {
-                    _canDrop = false;
-                    break;
-                }
+                //if (obj.TryGetComponent(out HintRail hintRail))
+                //{
+                //    _canDrop = false;
+                //    break;
+                //}
                
                 //Railに触れててそのRailが設置済みのRailの時もfalse
                 if (obj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
@@ -131,6 +131,12 @@ public class PointManager : MonoBehaviour
                     _canDrop = false;
                     break;
                     Debug.Log("これはレールです");
+                }
+
+                if(obj.TryGetComponent(out IPickableItem ip) && ip.GetType() == ItemType.NotItem)
+                {
+                    _canDrop = false;
+                    break;
                 }
                 
                 _canDrop = true;
@@ -175,7 +181,7 @@ public class PointManager : MonoBehaviour
         //一番近いマスに落とす
         _haveObject.transform.position
             = new Vector3(_gridScript.Point.transform.position.x,
-                        0, _gridScript.Point.transform.position.z);
+                        -0.45f, _gridScript.Point.transform.position.z);
         Debug.Log(_haveObject.transform.position);
         HaveObjReset();
     }
