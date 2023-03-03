@@ -31,12 +31,7 @@ public class TrainBase : MonoBehaviour
     [SerializeField, Tooltip("前Raycast")] Transform _frontR;
     [Tooltip("Raycastを飛ばす座標")] Vector3 _rayPos;
 
-    
-    void Awake()
-    {
-        //_rb = GetComponent<Rigidbody>();
-    }
-
+    [SerializeField] TrainDestroy _td;
     void Update()
     {
         TrainMove();
@@ -111,11 +106,12 @@ public class TrainBase : MonoBehaviour
         bool needRotate = false;
         Vector3 rayVec = rayPos.position - transform.position;
         RaycastHit hit;
-        if (Physics.Raycast(_trainPos, rayVec, out hit, 3))
+        if (Physics.Raycast(_trainPos, rayVec, out hit, 1))
         {
             //エラー吐かないように_nowRailIndexがリストの要素数 -1まで来たら処理をとばす
             if (RailManager.Instance._rails.Count - 2 >= _nowRailIndex)
             {
+                //対象がレール&&次のindexのレールだったら
                 if (hit.collider.TryGetComponent(out Rail rail) &&
                 rail == RailManager.Instance._rails.ElementAt(_nowRailIndex + 1))
                 {
@@ -123,8 +119,9 @@ public class TrainBase : MonoBehaviour
                     _nowRailIndex++;
                 }
             }
+      
         }
-        Debug.DrawRay(_trainPos, rayVec.normalized * 3, Color.blue);
+        Debug.DrawRay(_trainPos, rayVec.normalized * 1, Color.blue);
         return needRotate;
     }
 
@@ -136,7 +133,7 @@ public class TrainBase : MonoBehaviour
         //曲がり切ったか判定
         if (_step < 1)  //曲がり切ってない
         {
-            _moveSpeed = 0.01f;
+            _moveSpeed = 0.02f;
             _isRotate = true;
             _step += _rotationSpeed * Time.deltaTime;
             transform.rotation = Quaternion.Slerp(_trainRot, Quaternion.Euler(0, _nextQuaternionR, 0), _step);
@@ -147,10 +144,10 @@ public class TrainBase : MonoBehaviour
             //初期化
             _step = 0f;
             _trainRot = transform.rotation;
-            _moveSpeed = 0.04f;
+            _moveSpeed = 0.07f;
             _isRotate = false;
             _isRotateR = false;
-
+            //_nowRailIndex++;
         }
     }
 
@@ -161,7 +158,7 @@ public class TrainBase : MonoBehaviour
     {
         if (_step < 1)  //曲がり切ってない
         {
-            _moveSpeed = 0.01f;
+            _moveSpeed = 0.02f;
             _isRotate = true;
             _step += _rotationSpeed * Time.deltaTime;
             transform.rotation = Quaternion.Slerp(_trainRot, Quaternion.Euler(0, _nextQuaternionL, 0), _step);
@@ -172,15 +169,15 @@ public class TrainBase : MonoBehaviour
             //初期化
             _step = 0f;
             _trainRot = transform.rotation;
-            _moveSpeed = 0.1f;
+            _moveSpeed = 0.07f;
             _isRotate = false;
             _isRotateL = false;
+            //_nowRailIndex++;
         }
     }
 
     void TrainMove()
     {
         transform.position += transform.right * _moveSpeed * Time.deltaTime;
-        Debug.Log(transform.right * _moveSpeed * Time.deltaTime);
     }
 }

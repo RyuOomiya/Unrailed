@@ -13,7 +13,12 @@ public class TrainDestroy : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Ground ground))
         {
-            _isGameOver = true;
+            BreakTrain();
         }
+    }
+
+    public void BreakTrain()
+    {
+        _isGameOver = true;
     }
 }
