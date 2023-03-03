@@ -25,6 +25,7 @@ public class Rail : MonoBehaviour, IPickableItem
                 //PointManagerクラスを参照してHaveObjResetメソッドを呼び出す
                 PointManager pointManager= transform.parent.gameObject.GetComponent<PointManager>();
                 pointManager.HaveObjReset();
+                hintrail.ChangeSetActive(false);
             } 
         }
     }

@@ -19,18 +19,15 @@ public class HintRail : MonoBehaviour, IPickableItem
     void OnTriggerEnter(Collider other)
     {
         //プレイヤーがアイテムを持ってて、そのアイテムがレールだったらハイライトオン
-        if(other.gameObject.TryGetComponent(out PointManager pm))
+        if (other.gameObject.TryGetComponent(out PointManager pm))
         {
             if (pm.HasObj && pm.PickedType == ItemType.Rail && _canSet)
             {
                 ChangeSetActive(true);
             }
-        }
-    }
 
-    void OnTriggerStay(Collider other)
-    {
-        SetPointSeach(other.gameObject);
+            SetPointSeach(other.gameObject);
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -69,17 +66,7 @@ public class HintRail : MonoBehaviour, IPickableItem
         {
             _canSet = true;
         }
-        //レールがあったら
-        if (hitObj.TryGetComponent(out Rail rail))
-        {
-            //そのレールが設置済みのレールでなければ配列に追加する
-            if (!RailManager.Instance._rails.Contains(rail))
-            {
-                Debug.Log("呼ばれたらしい");
-                RailManager.Instance._rails.Add(rail);
-            }
-        }
-        if(hitObj.gameObject.name == "GoalRail")
+        if (hitObj.gameObject.name == "GoalRail")
         {
             _isGoal = true;
         }
