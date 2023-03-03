@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7876803824876636060}
   - component: {fileID: 7876803824876636063}
   - component: {fileID: 7876803824876636062}
-  - component: {fileID: 7876803824876636057}
   - component: {fileID: 7876803824876636056}
   - component: {fileID: 1096955470337234727}
+  - component: {fileID: 6222327440673706084}
   m_Layer: 0
   m_Name: Rail
   m_TagString: Untagged
@@ -86,19 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7876803824876636057
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7876803824876636059}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.9, y: 12.708242, z: 0.9}
-  m_Center: {x: 0, y: 5.8541193, z: 0}
 --- !u!114 &7876803824876636056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,3 +115,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!65 &6222327440673706084
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7876803824876636059}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.932628, y: 10.894548, z: 0.8723582}
+  m_Center: {x: 0.017381877, y: 5.593148, z: -0.010626018}
