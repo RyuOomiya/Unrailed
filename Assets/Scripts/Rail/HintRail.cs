@@ -25,9 +25,12 @@ public class HintRail : MonoBehaviour, IPickableItem
             {
                 ChangeSetActive(true);
             }
-
-            SetPointSeach(other.gameObject);
         }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        SetPointSeach(other.gameObject);
     }
 
     void OnTriggerExit(Collider other)
@@ -66,7 +69,17 @@ public class HintRail : MonoBehaviour, IPickableItem
         {
             _canSet = true;
         }
-        if (hitObj.gameObject.name == "GoalRail")
+        //レールがあったら
+        if (hitObj.TryGetComponent(out Rail rail))
+        {
+            //そのレールが設置済みのレールでなければ配列に追加する
+            if (!RailManager.Instance._rails.Contains(rail))
+            {
+                Debug.Log("呼ばれたらしい");
+                RailManager.Instance._rails.Add(rail);
+            }
+        }
+        if(hitObj.gameObject.name == "GoalRail")
         {
             _isGoal = true;
         }
