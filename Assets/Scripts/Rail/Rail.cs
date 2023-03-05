@@ -8,6 +8,13 @@ public class Rail : MonoBehaviour, IPickableItem
     [SerializeField] ItemGrid _grid;
     bool _isMove = false;
 
+    void Awake()
+    {
+        if( _grid == null )
+        {
+            _grid = FindObjectOfType<ItemGrid>();
+        }
+    }
     public void Set(ItemType type)
     {
         _type = type;
