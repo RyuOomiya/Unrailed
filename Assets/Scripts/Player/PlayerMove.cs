@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     [Tooltip("ダッシュのクールタイム")] private float _coolTime;    
     Rigidbody _rb;
     Vector3 _playerPos;
+    [Tooltip("LookRotationを呼ぶ最低ライン")] float _lowestVector = 0.08f;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,7 @@ public class PlayerMove : MonoBehaviour
 
         Vector3 diff = transform.position - _playerPos;
         //ベクトルの長さが0.01fより大きい場合にプレイヤーの向きを変える処理を入れる
-        if (diff.magnitude > 0.05f)
+        if (diff.magnitude > _lowestVector)
         {
             //ベクトルの情報をQuaternion.LookRotationに引き渡し回転量を取得しプレイヤーを回転させる
             transform.rotation = Quaternion.LookRotation(diff);
