@@ -99,6 +99,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 1
+  _grid: {fileID: 0}
+  _railColor: {fileID: 0}
+  _railMaterial: {fileID: 2100000, guid: c759720a7f1d2c34993c73e28953b67b, type: 2}
+  _installedRailMaterial: {fileID: 2100000, guid: 87a27eaa4d6380e45a553de72efb6874, type: 2}
 --- !u!54 &1096955470337234727
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -164,6 +164,7 @@ public class PointManager : MonoBehaviour
         if (hitObj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail) && !_isHave)
         {
             RailManager.Instance._rails.Remove(rail);
+            rail._railColor.material = rail._railMaterial;
         }
         _hitItems.Remove(hitObj);
         _iPickScript = items;
