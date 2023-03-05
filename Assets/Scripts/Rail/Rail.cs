@@ -25,10 +25,6 @@ public class Rail : MonoBehaviour, IPickableItem
         _type = type;
     }
     
-    void Update()
-    {
-        
-    }
     void OnTriggerEnter(Collider other)
     {
         //レールを設置時にそこにアイテムがあったら近場に移動
