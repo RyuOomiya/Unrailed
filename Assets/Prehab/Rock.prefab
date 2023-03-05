@@ -61,6 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 2
   _stone: {fileID: 87340696212395425, guid: 3c0f6ffc9fef5a14b892b37d4c763a14, type: 3}
+  _renderer: {fileID: 7877335043419762718}
 --- !u!1 &7877335043419762718
 GameObject:
   m_ObjectHideFlags: 0

@@ -63,6 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 2
   _wood: {fileID: 8196802648865119338, guid: e90c2b8c772d5a04981cf5755f110e9a, type: 3}
+  _renderer: {fileID: 3279629000840683883}
 --- !u!65 &2293265563054797164
 BoxCollider:
   m_ObjectHideFlags: 0
