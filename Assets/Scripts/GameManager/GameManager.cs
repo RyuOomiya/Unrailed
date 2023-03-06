@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     [Header("TrainManager")]
     [SerializeField, Tooltip("TrainManagerがついてるオブジェクト")] GameObject _train;
     [Tooltip("TrainManagerスクリプト")] TrainBase _trainManagerScript;
+    [SerializeField] TrainDestroy _trainDestroy;
+    [SerializeField] HintRail _hintRail;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,11 +22,12 @@ public class GameManager : MonoBehaviour
     {
         Goal();
         GameOver();
+
     }
 
     void Goal()
     {
-        if (HintRail._isGoal)
+        if (_hintRail._isGoal)
         {
             SceneManager.LoadScene("ClearScene");
         }
@@ -32,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
-        if(TrainDestroy._isGameOver)
+        if(_trainDestroy._isGameOver)
         {
             SceneManager.LoadScene("GameOverScene");
         }

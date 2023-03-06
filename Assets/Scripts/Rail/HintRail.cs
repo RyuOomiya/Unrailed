@@ -10,7 +10,7 @@ public class HintRail : MonoBehaviour
     [SerializeField, Header("RailSetPointの親オブジェクト")] public GameObject _railSetManager;
     MeshRenderer _railRenderer;
     Vector3 _overLapPos;
-    [SerializeField, Tooltip("ゴールした？")] public static bool _isGoal;
+    [SerializeField, Tooltip("ゴールした？")] public bool _isGoal;
     [SerializeField] PointManager _pointManager;
     [SerializeField] Rail rail;
     bool _isHitNotGround = false;

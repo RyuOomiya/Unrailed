@@ -181,8 +181,9 @@ public class PointManager : MonoBehaviour
         _iPickScript = items;
         _haveObject = hitObj;
         Input.ResetInputAxes();
-        hitObj.transform.parent = this.gameObject.transform;
         hitObj.transform.position = this.gameObject.transform.position;
+        hitObj.transform.parent = this.gameObject.transform;
+        
     }
 
     /// <summary> アイテム落とす </summary>
