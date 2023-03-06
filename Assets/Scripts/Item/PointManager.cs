@@ -124,7 +124,12 @@ public class PointManager : MonoBehaviour
                 //    _canDrop = false;
                 //    break;
                 //}
-               
+                
+                if(obj.TryGetComponent(out River river))
+                {
+                    _canDrop = false;
+                    break;
+                }
                 //Railに触れててそのRailが設置済みのRailの時もfalse
                 if (obj.TryGetComponent(out Rail rail) && RailManager.Instance._rails.Contains(rail))
                 {
