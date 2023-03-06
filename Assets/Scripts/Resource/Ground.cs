@@ -16,8 +16,6 @@ public class Ground : MonoBehaviour
         {
             _collider.size = new Vector3(1,1,1);
         }
-
-        
     }
 
     private void OnTriggerStay(Collider other)

@@ -42,17 +42,18 @@ public class RailManager : MonoBehaviour
 
     void Update()
     {
-        SetPointSummon();
+        SetPointChange();
         ForSetRail();
     }
 
     /// <summary>
     /// リストの最後尾のレールが変わるたびにSeach用Pointを飛ばす
     /// </summary>
-    void SetPointSummon()
+    void SetPointChange()
     {
         if(_railsCount != _rails.Count)
         {
+            Debug.Log("更新");
             //上下左右にSeach用Pointを飛ばす
             _hintRailScript._railSetManager.transform.position =
                 new Vector3(_rails[_rails.Count - 1].transform.position.x , 0 , _rails[_rails.Count - 1].transform.position.z);

@@ -20,7 +20,7 @@ public class PointManager : MonoBehaviour
 
     public ItemType PickedType { get => _iPickScript.GetType(); }
     public bool HasObj { get => _iPickScript != null; }
-    [SerializeField, Tooltip("アイテム持ってる？")] bool _isHave { get => _haveObject != null; }
+    [Tooltip("アイテム持ってる？")] public bool _isHave { get => _haveObject != null; }
 
     void Awake()
     {
@@ -125,6 +125,12 @@ public class PointManager : MonoBehaviour
                 //    break;
                 //}
                 
+                if(obj.TryGetComponent(out Mountain mountain))
+                {
+                    _canDrop = false;
+                    break;
+                }
+
                 if(obj.TryGetComponent(out River river))
                 {
                     _canDrop = false;
